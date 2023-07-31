@@ -1,0 +1,112 @@
+﻿<form class="w-75 m-auto" id="myForm" asp-action="Index" method="post">
+    <div class="mb-3">
+        <label for="UserName" class="form-label">User Name</label>
+        <select name="memberId" id="memberDropdown" class="form-control">
+            <option value="">Select Member</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="Action" class="form-label">Action</label>
+        <select name="actionType" id="actionDropdown" class="form-control">
+            <option value="">Select Action</option>
+            <option value="Borrow">Borrow</option>
+            <option value="Lend">Lend</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="BookTitle" class="form-label">Book Title</label>
+        <select name="bookId" id="bookDropdown" class="form-control">
+            <option value="">Select Book</option>
+        </select>
+    </div>
+
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="text-danger">
+            @TempData["AlertMessage"]
+        </div>
+    }
+    <button type="submit" class="btn btn-primary" id="actionButton">Submit</button>
+</form>
+
+
+
+
+@section Scripts{
+    <script>
+      
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Home/GetMembers", 
+                type: "GET",
+                success: function (members) {
+                    var memberDropdown = $("#memberDropdown");
+                    memberDropdown.empty();
+                    memberDropdown.append('<option value="">Select Member</option>');
+
+                    members.forEach(function (member) {
+                        memberDropdown.append('<option value="' + member.id + '">' + member.userName + '</option>');
+                    });
+                }
+            });
+
+         
+    $("#memberDropdown").change(function () {
+        populateBooksDropdown(); 
+    });
+
+    
+    $("#actionDropdown").change(function () {
+        populateBooksDropdown(); 
+    });
+
+    function populateBooksDropdown() {
+        var memberId = $("#memberDropdown").val();
+        var actionType = $("#actionDropdown").val();
+
+       
+        var bookDropdown = $("#bookDropdown");
+        bookDropdown.empty();
+
+        
+        if (memberId && actionType) {
+            $.ajax({
+                url: "/Home/GetBooks", 
+                type: "GET",
+                data: {
+                    memberId: memberId,
+                    actionType: actionType
+                },
+                success: function (books) {
+                    
+                    if(books.length ==0 && actionType == "Borrow"){
+                                bookDropdown.append('<option value="">There are no books available</option>');
+                    }
+                    else if (books.length == 0 && actionType == "Lend") {
+                                bookDropdown.append('<option value="">You have no books to Lend it</option>');
+                    }
+                    else{
+                        bookDropdown.append('<option value="">Select Book</option>');
+
+                    }
+                    books.forEach(function (book) {
+                        bookDropdown.append('<option value="' + book.id + '">' + book.title + '</option>');
+                        
+                    });
+                }
+            });
+        } else {
+            bookDropdown.append('<option value="">Select</option>');
+        }
+    }
+
+        });
+   </script>
+
+
+
+
+
+}

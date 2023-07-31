@@ -1,0 +1,21 @@
+﻿@model MemberAddVM
+@{
+    bool? status = TempData[Message.Status] as bool?;
+    var message = TempData[Message.Mess] as string;
+}
+<h2>Add new Member</h2>
+
+<form asp-action="Add" method="post">
+    <div class="mb-3">
+        <label for="UserName" class="form-label">User Name</label>
+        <input asp-for="UserName" type="text" class="form-control" id="UserName">
+        <span class="text-danger" asp-validation-for="UserName"></span>
+    </div>
+    @if (status == false)
+    {
+        <div class="text-danger">
+            @message
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

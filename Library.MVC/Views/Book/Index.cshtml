@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BookReadVM>
+@{
+    var books = Model;
+    bool? status = TempData[Message.Status] as bool?;
+    var message = TempData[Message.Mess] as string;
+}
+@if (!books.Any())
+{
+    <span class="text-danger fs-2">No Books,
+        <a asp-action="Add">Add new Book</a>
+    </span>
+}
+else{
+ 
+    <a class="btn btn-primary m-3" asp-action="Add">Add new Book</a>
+ if (status==false)
+ {
+        <div class="alert alert-warning" role="alert">
+           @message
+        </div>
+ }
+
+<table class="table table-bordered border-primary m-auto">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Available Quantity</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in books)
+        {
+            <tr>
+                <td class="col-md-6">@book.Title</td>
+                <td>@book.Quantity</td>
+                <td>@book.AvailableQuantity</td>
+                <td>
+                    <a class="btn btn-info " asp-action="Details" asp-route-id="@book.Id">Details</a>
+                    <a class="btn btn-danger  deleteBtn" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+}
+

@@ -1,0 +1,58 @@
+﻿@model BookDetailsVM
+@{
+    var book = Model;
+    var members = book.Members;
+}
+
+<h2>Book Details</h2>
+
+<table class="table table-success table-striped">
+    <tbody>
+        <tr>
+            <th scope="row">ID:</th>
+            <td>@book.Id</td>
+        </tr>
+        <tr>
+            <th scope="row">Title:</th>
+            <td>@book.Title</td>
+        </tr>
+        <tr>
+            <th scope="row">Quantity:</th>
+            <td>@book.Quantity</td>
+        </tr>
+        <tr>
+            <th scope="row">AvailableQuantity:</th>
+            <td>@book.AvailableQuantity</td>
+        </tr>
+        <tr>
+            <th scope="row">AddTime:</th>
+            <td>@book.AddTime</td>
+        </tr>
+    </tbody>
+</table>
+
+@if (!members.Any())
+{
+    <span class="text-danger">No members borrow</span>
+}
+else
+{
+    <h2>Members who borrow</h2>
+    <table class="table table-bordered border-primary">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">User Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in members)
+            {
+                <tr>
+                    <td>@member.Id</td>
+                    <td class="col-md-8">@member.UserName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

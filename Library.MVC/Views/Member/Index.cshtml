@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MemberReadVM>
+@{
+    var members = Model;
+    bool? status = TempData[Message.Status] as bool?;
+    var message = TempData[Message.Mess] as string;
+}
+@if (!members.Any())
+{
+    <span class="text-danger fs-2">
+        No Members,
+        <a asp-action="Add">Add new Member</a>
+    </span>
+}
+else
+{
+    <a class="btn btn-primary m-3" asp-action="Add">Add new Member</a>
+
+    if (status == false)
+    {
+        <div class="alert alert-warning" role="alert">
+            @message
+        </div>
+    }
+    <table class="table table-bordered border-primary m-auto">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in members)
+            {
+                <tr>
+                    <td>@member.Id</td>
+                    <td class="col-md-6">@member.UserName</td>
+                    <td>
+                        <a class="btn btn-info " asp-action="Details" asp-route-id="@member.Id">Details</a>
+                        <a class="btn btn-danger  deleteBtn " asp-action="Delete" asp-route-id="@member.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

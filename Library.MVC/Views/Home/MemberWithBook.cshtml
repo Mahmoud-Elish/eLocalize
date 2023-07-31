@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BookMemberReadVM>
+@{
+    var myLst = Model;
+    bool? status = TempData[Message.Status] as bool?;
+    var message = TempData[Message.Mess] as string;
+}
+
+
+@if (!myLst.Any())
+{
+    <span class="text-danger fs-2">
+        No Borrowed Books
+    </span>
+}
+else
+{
+    <table class="table table-bordered border-primary w-75 m-auto">
+        <thead>
+            <tr>
+                <th scope="col">User Name</th>
+                <th scope="col">Title Book</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in myLst)
+            {
+                <tr>
+                    <td>@item.MemberUSerName</td>
+                    <td class="col-md-6">@item.BookTitle</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}

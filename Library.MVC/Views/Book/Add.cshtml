@@ -1,0 +1,29 @@
+﻿@model BookAddVM
+@{
+    bool? status = TempData[Message.Status] as bool?;
+    var message = TempData[Message.Mess] as string;
+}
+<h2>Add new Book</h2>
+
+<form asp-action="Add" method="post">
+    <div class="mb-3">
+        <label for="Title" class="form-label">Title</label>
+        <input asp-for="Title" type="text" class="form-control" id="Title">
+        <span class="text-danger" asp-validation-for="Title"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Quantity" class="form-label">Quantity</label>
+        <input asp-for="Quantity" type="number" class="form-control" id="Quantity">
+        <span class="text-danger" asp-validation-for="Quantity"></span>
+
+    </div>
+
+    @if (status == false)
+    {
+        <div class="text-danger">
+            @message
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

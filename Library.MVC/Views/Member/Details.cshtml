@@ -1,0 +1,46 @@
+﻿@model MemberDetailsVM
+@{
+    var member = Model;
+    var books = member.Books;
+}
+
+<h2>Member Details</h2>
+
+<table class="table table-success table-striped">
+    <tbody>
+        <tr>
+            <th scope="row">ID:</th>
+            <td>@member.Id</td>
+        </tr>
+        <tr>
+            <th scope="row">User Name:</th>
+            <td> @member.UserName</td>
+        </tr>
+    </tbody>
+</table>
+
+@if (!books.Any())
+{
+    <span class="text-danger">No Books borrow</span>
+}
+else
+{
+    <h2>Member's books</h2>
+    <table class="table table-bordered border-primary">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in books)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td class="col-md-8">@book.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
